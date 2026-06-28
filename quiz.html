@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Quiz</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <button class="back-button" onclick="if (history.length > 1) history.back(); else location.href='menupage.html';">← Back</button>
+
+<div class="sidebar">
+    <h2>🌊 Fluid Mechanics</h2>
+    <p class="topic-desc">The study of fluids at rest and in motion, exploring properties like density, pressure, and buoyancy.</p>
+    <a href="index.html">Dashboard</a>
+    <a href="simulation.html">Simulation</a>
+    <a href="quiz.html">Quiz</a>
+</div>
+
+<div class="main" id="quiz-container">
+
+    <div class="card">
+        <h1>Fluid Mechanics Quiz</h1>
+        <div id="progress" style="font-size: 0.9rem; color: #6366f1; margin-bottom: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;"></div>
+        <h2 id="question"></h2>
+        <div id="choices"></div>
+        <h2 id="score"></h2>
+    </div>
+
+</div>
+
+<script>
+
+let studentData = {};
+
+let questions=[
+
+{
+q:"What is the density of water?",
+c:["100","1000","500","1500"],
+a:"1000"
+},
+{
+q:"What is the SI unit of pressure?",
+c:["Pascal","Newton","Watt","Joule"],
+a:"Pascal"
+},
+{
+q:"What is the formula for density?",
+c:["ρ = m/V","ρ = V/m","ρ = m*V","ρ = F/A"],
+a:"ρ = m/V"
+},
+{
+q:"The buoyant force on an object is equal to the weight of the fluid it displaces. This is...",
+c:["Pascal's Principle","Bernoulli's Principle","Archimedes' Principle","Newton's Law"],
+a:"Archimedes' Principle"
+},
+{
+q:"Which of the following is the standard unit for density?",
+c:["kg/m²","kg/m³","N/m²","kg*m³"],
+a:"kg/m³"
+},
+{
+q:"If an object has a density of 800 kg/m³, in water (1000 kg/m³) it will:",
+c:["Sink","Float","Dissolve","Explode"],
+a:"Float"
+},
+{
+q:"Pressure in a liquid depends on depth and...",
+c:["Width","Color","Density","Shape"],
+a:"Density"
+},
+{
+q:"1 Pascal is equal to:",
+c:["1 N/m","1 N/m²","1 kg/m","1 J/m"],
+a:"1 N/m²"
+},
+{
+q:"What instrument measures atmospheric pressure?",
+c:["Thermometer","Barometer","Hydrometer","Anemometer"],
+a:"Barometer"
+},
+{
+q:"Hydraulic lifts are an application of...",
+c:["Archimedes' Principle","Bernoulli's Principle","Pascal's Principle","Boyle's Law"],
+a:"Pascal's Principle"
+},
+{
+q:"The upward force exerted by a fluid is called...",
+c:["Gravity","Friction","Buoyant Force","Magnetic Force"],
+a:"Buoyant Force"
+},
+{
+q:"What is the apparent weight of an object if its real weight is 10N and the buoyant force is 3N?",
+c:["13N","7N","30N","3.33N"],
+a:"7N"
+},
+{
+q:"What is the density of an object with mass 20kg and volume 2m³?",
+c:["40 kg/m³","10 kg/m³","0.1 kg/m³","5 kg/m³"],
+a:"10 kg/m³"
+},
+{
+q:"A ship floats because...",
+c:["It is made of wood","It is lighter than air","It displaces water equal to its weight","The ocean is deep"],
+a:"It displaces water equal to its weight"
+},
+{
+q:"In the formula P = ρgh, 'h' represents...",
+c:["Horizontal distance","Heat","Height or depth","Hardness"],
+a:"Height or depth"
+},
+{
+q:"The resistance of a fluid to flow is called...",
+c:["Density","Pressure","Viscosity","Buoyancy"],
+a:"Viscosity"
+},
+{
+q:"Surface tension allows some insects to...",
+c:["Fly","Walk on water","Breathe underwater","Swim fast"],
+a:"Walk on water"
+},
+{
+q:"If you compress a gas into a smaller volume, its pressure usually...",
+c:["Decreases","Increases","Stays the same","Fluctuates"],
+a:"Increases"
+},
+{
+q:"Specific gravity has which unit?",
+c:["kg/m³","Pascal","Newtons","No unit"],
+a:"No unit"
+},
+{
+q:"Which principle explains how airplanes get lift?",
+c:["Archimedes' Principle","Bernoulli's Principle","Pascal's Principle","Ohm's Law"],
+a:"Bernoulli's Principle"
+}
+];
+
+let current=0;
+let score=0;
+
+function startQuiz() {
+    studentData = {
+        firstName: "Student",
+        lastName: "Quiz",
+        middleName: "",
+        course: "N/A",
+        section: ""
+    };
+
+    current = 0;
+    score = 0;
+    load();
+}
+
+function load(){
+
+if(current>=questions.length){
+
+document.getElementById("question").innerHTML=
+"Quiz Finished";
+
+document.getElementById("choices").innerHTML="";
+document.getElementById("progress").innerHTML="";
+document.getElementById("score").innerHTML=
+"Final Score: "+score+" / "+questions.length;
+
+return;
+}
+
+document.getElementById("progress").innerHTML=
+"Question "+(current+1)+" / "+questions.length;
+
+document.getElementById("question").innerHTML=
+questions[current].q;
+
+let html="";
+
+questions[current].c.forEach(choice=>{
+
+html +=
+`<button onclick="check(this.innerText)">${choice}</button>`;
+
+});
+
+document.getElementById("choices").innerHTML=html;
+}
+
+function check(choice){
+
+if(choice==questions[current].a){
+
+score++;
+
+}
+
+current++;
+
+load();
+
+}
+
+startQuiz();
+
+</script>
+
+</body>
+<script>
+(function() {
+    try {
+        const nav = performance.getEntriesByType('navigation')[0] || {};
+        const reloaded = nav.type === 'reload' || window.performance?.navigation?.type === 1;
+        const file = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1).toLowerCase();
+        if (reloaded && file && file !== 'index.html') {
+            window.location.replace('index.html');
+        }
+    } catch (e) {
+        console.warn('Redirect on reload failed', e);
+    }
+})();
+</script>
+</html>
